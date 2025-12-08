@@ -1,4 +1,4 @@
-const { getRoleByName, createRoleByName, deleteRoleById, getRoleById, updateRoleById } = require("../models/roleModel");
+const { getRoleByName, createRoleByName, deleteRoleById, getRoleById, updateRoleById, listOfRole } = require("../models/roleModel");
 
 
 const createRole = async (req, res) => {
@@ -63,9 +63,24 @@ const updateRole = async (req, res) => {
     }
 }
 
+const getAllRoles = async (req, res) => {
+    try  {
+        const role = await listOfRole();
+        if(!role || role.length === 0) {
+            return res.status(404).json({success: false, message: "Role not found."});
+        }
+         
+        return res.status(200).json({success: true, data: role});
+    } catch(err) {
+        console.log("Get all roles error: ", err);
+        return res.status(500).json({success: false, message: "Internal server error."});
+    }
+};
+
 module.exports = {
     createRole,
     editRole,
     updateRole,
-    deleteRole
+    deleteRole,
+    getAllRoles
 }

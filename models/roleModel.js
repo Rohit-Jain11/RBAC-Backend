@@ -38,10 +38,16 @@ const deleteRoleById = async(roleId) => {
     return res.rows[0];
 };
 
+const listOfRole = async () => {
+    const res = await pool.query(`SELECT * FROM roles`);
+    return res.rows;
+};
+
 module.exports = {
     getRoleByName,
     createRoleByName,
     deleteRoleById,
     getRoleById,
-    updateRoleById
+    updateRoleById,
+    listOfRole
 }

@@ -198,7 +198,7 @@ const updateUser = async (req, res) => {
     }
 
     const existingEmail = await getUserByEmail(email);
-    if(existingEmail) {
+    if(existingEmail && existingEmail.id != id) {
         return res.status(400).json({success:false, message: 'Email already registered.'});
     }
 
