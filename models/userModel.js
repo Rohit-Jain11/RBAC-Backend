@@ -23,7 +23,7 @@ const getUserByEmail = async(email) => {
 
 const getUserById = async (id) => {
     const result = await pool.query(
-        `SELECT id, name, email, role, created_at FROM users WHERE id = $1`,
+        `SELECT id, name, email, role,avatar, created_at FROM users WHERE id = $1`,
         [id]
     );
 
@@ -34,7 +34,7 @@ const updateUserById = async (id, fields) => {
   const keys = Object.keys(fields);
   const values = Object.values(fields);
 
-  if (keys.length === 0) return null; // nothing to update
+  if (keys.length === 0) return null;
 
   const setQuery = keys.map((key, index) => `${key}=$${index + 1}`).join(', ');
 
@@ -42,7 +42,7 @@ const updateUserById = async (id, fields) => {
     `UPDATE users
      SET ${setQuery}
      WHERE id=$${keys.length + 1}
-     RETURNING id, name, email, role, created_at`,
+     RETURNING id, name, email, role, avatar, created_at`,
     [...values, id]
   );
 

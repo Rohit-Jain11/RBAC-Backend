@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 const userRoutes = require('./routes/userRoutes.js');
 const roleRoutes = require('./routes/roleRoutes.js');
@@ -19,6 +20,10 @@ initDB();
 app.use('/users', userRoutes);
 app.use('/role', roleRoutes);
 app.use('/assign',assignPermissionRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 
 const PORT = process.env.PORT || 5000;

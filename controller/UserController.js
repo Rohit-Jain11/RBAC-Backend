@@ -207,12 +207,16 @@ const updateUser = async (req, res) => {
         if (email !== undefined) fieldsToUpdate.email = email;
         if (role !== undefined) fieldsToUpdate.role = role;
 
+         if (req.file) {
+              fieldsToUpdate.avatar = `/uploads/users/${req.file.filename}`;
+         }
+
         const updatedUser = await updateUserById(id, fieldsToUpdate);
 
     return res.status(200).json({
       success: true,
       message: "User updated successfully",
-      user: updatedUser
+      user: { ...updatedUser, avatar: fieldsToUpdate.avatar || user.avatar }
     });
   } catch (error) {
     console.error("Update User Error:", error);
