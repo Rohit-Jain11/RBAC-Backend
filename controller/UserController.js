@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { getUserByEmail, checkAdminExists, createUser, saveResetToken, getUserByResetToken, updatePasswordAndClearToken, getUserById, updateUserById, deleteUserById, getAllUsers } = require('../models/userModel');
+const { getUserByEmail, checkAdminExists, createUser, saveResetToken, getUserByResetToken, updatePasswordAndClearToken, getUserById, updateUserById, deleteUserById, getAllUsers, checkAdminExistsUpdate } = require('../models/userModel');
 const { emailRegex, passwordRegex } = require('../utils/Validator');
 const { hashPassword, comparePassword } = require('../utils/hash');
 const { sendResetPasswordEmail } = require('../services/EmailService');
@@ -187,8 +187,8 @@ const updateUser = async (req, res) => {
     }
 
     if(role == 1) {
-        const adminExists = await checkAdminExists();
-        if(adminExists) {
+        const adminExists = await checkAdminExistsUpdate();
+        if(adminExists && adminExists.id != id) {
         return res.status(400).json({success: false, message: 'Admin already exists. Only one admin allowed.'});
         }
     }

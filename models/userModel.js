@@ -73,6 +73,14 @@ const checkAdminExists = async () => {
     return result.rows.length > 0;
 };
 
+const checkAdminExistsUpdate = async () => {
+    const result = await pool.query (
+        `SELECT * FROM users WHERE role = 1 LIMIT 1`
+    );
+
+    return result.rows[0];
+};
+
 // Save reset token + expiry
 const saveResetToken = async (email, token, expiry) => {
   await pool.query(
@@ -120,5 +128,6 @@ module.exports = {
     getUserByResetToken,
     clearResetToken,
     updatePasswordAndClearToken,
-    deleteUserById
+    deleteUserById,
+    checkAdminExistsUpdate
 };
